@@ -23,26 +23,44 @@ class Node:
             yield node.data
             node = node.next_node
 
-    @property
+       @property
     def has_loop(self) -> bool:
         """
-        A loop is when the exact same Node appears more than once in a linked list.
+        Check whether the linked list contains a cycle.
+
+        Uses Floyd's cycle detection algorithm with O(1) extra space.
+
         >>> root_node = Node(1)
         >>> root_node.next_node = Node(2)
         >>> root_node.next_node.next_node = Node(3)
-        >>> root_node.next_node.next_node.next_node = Node(4)
         >>> root_node.has_loop
         False
-        >>> root_node.next_node.next_node.next_node = root_node.next_node
+
+        >>> root_node.next_node.next_node.next_node = root_node
         >>> root_node.has_loop
         True
-        """
-        try:
-            list(self)
-            return False
-        except ContainsLoopError:
-            return True
 
+        >>> single_node = Node(1)
+        >>> single_node.next_node = single_node
+        >>> single_node.has_loop
+        True
+
+        >>> duplicate_nodes = Node(5)
+        >>> duplicate_nodes.next_node = Node(5)
+        >>> duplicate_nodes.has_loop
+        False
+        """
+        slow = self
+        fast = self
+
+        while fast is not None and fast.next_node is not None:
+            slow = slow.next_node
+            fast = fast.next_node.next_node
+
+            if slow is fast:
+                return True
+
+        return False
 
 if __name__ == "__main__":
     root_node = Node(1)
