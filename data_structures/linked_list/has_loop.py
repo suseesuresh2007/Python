@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 from collections.abc import Iterator
@@ -23,7 +24,7 @@ class Node:
             yield node.data
             node = node.next_node
 
-       @property
+    @property
     def has_loop(self) -> bool:
         """
         Check whether the linked list contains a cycle.
@@ -62,20 +63,13 @@ class Node:
 
         return False
 
+
 if __name__ == "__main__":
     root_node = Node(1)
     root_node.next_node = Node(2)
     root_node.next_node.next_node = Node(3)
     root_node.next_node.next_node.next_node = Node(4)
-    print(root_node.has_loop)  # False
+    print(root_node.has_loop)
+
     root_node.next_node.next_node.next_node = root_node.next_node
-    print(root_node.has_loop)  # True
-
-    root_node = Node(5)
-    root_node.next_node = Node(6)
-    root_node.next_node.next_node = Node(5)
-    root_node.next_node.next_node.next_node = Node(6)
-    print(root_node.has_loop)  # False
-
-    root_node = Node(1)
-    print(root_node.has_loop)  # False
+    print(root_node.has_loop)
